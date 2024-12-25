@@ -26,6 +26,8 @@
 	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
 	<link rel="stylesheet" type="text/css" href="css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 	
 	<!-- ==============================================
 	Google Fonts
@@ -179,24 +181,25 @@
 					</div>
 					<br /><br />
 					<div class="blok quotes">
-						<form action="#" class="form-contact shake" id="contactForm" data-toggle="validator" novalidate="true">
-							<div class="form-group">
-								<input type="text" class="form-control" id="name" placeholder="Enter Name *" required="">
-								<div class="help-block with-errors"></div>
-							</div>
-							<div class="form-group">
-								<input type="email" class="form-control" id="email" placeholder="Enter Email *" required="">
-								<div class="help-block with-errors"></div>
-							</div>
-							<div class="form-group">
-								 <textarea id="message" class="form-control" rows="4" placeholder="Enter Your Message *" required=""></textarea>
-								<div class="help-block with-errors"></div>
-							</div>
-							<div class="form-group">
-								<div id="success"></div>
-								<button type="submit" class="btn btn-default disabled" style="pointer-events: all; cursor: pointer;">ASK A QUOTE</button>
-							</div>
-						</form>
+					<form action="#" class="form-contact shake" id="contactForm" data-toggle="validator" novalidate="true">
+  <div class="form-group">
+    <input type="text" class="form-control" id="name" placeholder="Enter Name *" required="">
+    <div class="help-block with-errors"></div>
+  </div>
+  <div class="form-group">
+    <input type="email" class="form-control" id="email" placeholder="Enter Email *" required="">
+    <div class="help-block with-errors"></div>
+  </div>
+  <div class="form-group">
+    <textarea id="message" class="form-control" rows="4" placeholder="Enter Your Message *" required=""></textarea>
+    <div class="help-block with-errors"></div>
+  </div>
+  <div class="form-group">
+    <div id="success"></div>
+    <button type="submit" class="btn btn-default disabled" style="pointer-events: all; cursor: pointer;">ASK A QUOTE</button>
+  </div>
+</form>
+
 						<div class="icon"><span class="fa fa-calendar"></span></div>	
 					</div>
 					
@@ -380,6 +383,58 @@
 	<script type="text/javascript" src="js/form-scripts.js"></script>
 	
 	<script type="text/javascript" src="js/script.js"></script>
-		
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+$(document).ready(function() {
+	$('#contactForm').on('submit', function(e) {
+	  e.preventDefault();
+  
+	  var name = $('#name').val();
+	  var email = $('#email').val();
+	  var message = $('#message').val();
+  
+	  $.ajax({
+		url: 'https://script.google.com/macros/s/AKfycbyzaYpZghusABAuz1wMeCuDzWULv0VRUelocJ8rUJyE0M3BMlJwqc_HZs4hUtntCTgJ/exec',
+		method: 'POST',
+		data: {
+		  cname: name,
+		  cemail: email,
+		  cmessage: message
+		},
+		success: function(response) {
+		  toastr.success('Form submitted successfully!');
+		  setTimeout(function() {
+			window.location.href = 'http://127.0.0.1:5500/contact.html';
+		  }, 3000);
+		},
+		error: function(xhr, status, error) {
+		  console.error("Error:", xhr.responseText);
+		  toastr.error('There was an error submitting the form. Please try again.');
+		}
+	  });
+	});
+  });
+  
+  toastr.options = {
+	"closeButton": true,
+	"debug": false,
+	"newestOnTop": false,
+	"progressBar": false,
+	"positionClass": "toast-top-full-width",
+	"preventDuplicates": false,
+	"onclick": null,
+	"showDuration": "300",
+	"hideDuration": "1000",
+	"timeOut": "5000",
+	"extendedTimeOut": "1000",
+	"showEasing": "swing",
+	"hideEasing": "linear",
+	"showMethod": "fadeIn",
+	"hideMethod": "fadeOut"
+  };
+  
+</script>
+	
 </body>
 </html>
